@@ -16,19 +16,12 @@
             </div>
             
             <form id="assessmentForm" class="assessment-form">
+                {% csrf_token %}
                 <div class="form-grid">
                     <!-- Age -->
                     <div class="form-group">
                         <label for="age" class="form-label">Age</label>
-                        <select id="age" name="age" required>
-                            <option value="">Select your age range</option>
-                            <option value="18-25">18-25</option>
-                            <option value="26-35">26-35</option>
-                            <option value="36-45">36-45</option>
-                            <option value="46-55">46-55</option>
-                            <option value="56-65">56-65</option>
-                            <option value="65+">65+</option>
-                        </select>
+                        <input type="number" id="age" name="age" required>
                     </div>
 
                     <!-- Lifestyle Factors -->
@@ -36,14 +29,9 @@
                         <label for="lifestyle" class="form-label">Lifestyle Factors</label>
                         <select id="lifestyle" name="lifestyle" required>
                             <option value="">Select lifestyle factors</option>
-                            <option value="sedentary">Sedentary</option>
-                            <option value="lightly-active">Lightly Active</option>
-                            <option value="moderately-active">Moderately Active</option>
-                            <option value="very-active">Very Active</option>
-                            <option value="poor-sleep">Poor Sleep Habits</option>
-                            <option value="good-sleep">Good Sleep Habits</option>
-                            <option value="poor-diet">Poor Diet</option>
-                            <option value="healthy-diet">Healthy Diet</option>
+                            <option value="Sleep Quality">Sleep Quality</option>
+                            <option value="Exercise">Exercise</option>
+                            <option value="Diet">Diet</option>
                         </select>
                     </div>
 
@@ -52,14 +40,9 @@
                         <label for="stressors" class="form-label">Current Stressors</label>
                         <select id="stressors" name="stressors" required>
                             <option value="">Select current stressors</option>
-                            <option value="work">Work Stress</option>
-                            <option value="relationship">Relationship Issues</option>
-                            <option value="financial">Financial Pressure</option>
-                            <option value="health">Health Concerns</option>
-                            <option value="family">Family Problems</option>
-                            <option value="social">Social Pressure</option>
-                            <option value="multiple">Multiple Stressors</option>
-                            <option value="none">No Major Stressors</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
                         </select>
                     </div>
 
@@ -68,14 +51,11 @@
                         <label for="symptoms" class="form-label">Symptoms</label>
                         <select id="symptoms" name="symptoms" required>
                             <option value="">Select primary symptoms</option>
-                            <option value="chest-pain">Chest Pain</option>
-                            <option value="breathlessness">Breathlessness</option>
-                            <option value="heart-palpitations">Heart Palpitations</option>
-                            <option value="dizziness">Dizziness</option>
-                            <option value="sweating">Sweating</option>
-                            <option value="trembling">Trembling</option>
-                            <option value="nausea">Nausea</option>
-                            <option value="multiple-symptoms">Multiple Symptoms</option>
+                            <option value="Chest Pain">Chest Pain</option>
+                            <option value="Shortness of Breath">Shortness of Breath</option>
+                            <option value="Panic Attacks">Panic Attacks</option>
+                            <option value="Dizziness">Dizziness</option>
+                            <option value="Fear of Losing Control">Fear of Losing Control</option>
                         </select>
                     </div>
 
@@ -84,10 +64,9 @@
                         <label for="severity" class="form-label">Severity</label>
                         <select id="severity" name="severity" required>
                             <option value="">Select severity level</option>
-                            <option value="mild">Mild</option>
-                            <option value="moderate">Moderate</option>
-                            <option value="severe">Severe</option>
-                            <option value="very-severe">Very Severe</option>
+                            <option value="Mild">Mild</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Severe">Severe</option>
                         </select>
                     </div>
 
@@ -96,11 +75,9 @@
                         <label for="impact" class="form-label">Impact on Life</label>
                         <select id="impact" name="impact" required>
                             <option value="">Select impact level</option>
-                            <option value="minimal">Minimal Impact</option>
-                            <option value="moderate-impact">Moderate Impact</option>
-                            <option value="significant">Significant Impact</option>
-                            <option value="severe-impact">Severe Impact</option>
-                            <option value="disabled">Severely Disabled</option>
+                            <option value="Mild">Mild</option>
+                            <option value="Significant">Significant</option>
+                            <option value="Moderate">Moderate</option>
                         </select>
                     </div>
 
@@ -109,14 +86,10 @@
                         <label for="coping" class="form-label">Coping Mechanisms</label>
                         <select id="coping" name="coping" required>
                             <option value="">Select primary coping mechanisms</option>
-                            <option value="exercise">Exercise</option>
-                            <option value="meditation">Meditation/Mindfulness</option>
-                            <option value="social">Social Support</option>
-                            <option value="therapy">Professional Therapy</option>
-                            <option value="medication">Medication</option>
-                            <option value="breathing">Breathing Exercises</option>
-                            <option value="hobbies">Hobbies</option>
-                            <option value="none">No Coping Strategies</option>
+                            <option value="Exercise">Exercise</option>
+                            <option value="Meditation">Meditation</option>
+                            <option value="Socializing">Socializing</option>
+                            <option value="Seeking Therapy">Seeking Therapy</option>
                         </select>
                     </div>
 
@@ -125,12 +98,8 @@
                         <label for="family-history" class="form-label">Family History</label>
                         <select id="family-history" name="family-history" required>
                             <option value="">Select family history</option>
-                            <option value="panic-disorder">Panic Disorder</option>
-                            <option value="anxiety">Anxiety Disorders</option>
-                            <option value="depression">Depression</option>
-                            <option value="other-mental">Other Mental Health Issues</option>
-                            <option value="no-history">No Known History</option>
-                            <option value="unknown">Unknown</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                         </select>
                     </div>
 
@@ -139,11 +108,9 @@
                         <label for="social-support" class="form-label">Social Support</label>
                         <select id="social-support" name="social-support" required>
                             <option value="">Select social support level</option>
-                            <option value="very-weak">Very Weak</option>
-                            <option value="weak">Weak</option>
-                            <option value="moderate">Moderate</option>
-                            <option value="strong">Strong</option>
-                            <option value="very-strong">Very Strong</option>
+                            <option value="High">High</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Low">Low</option>
                         </select>
                     </div>
 
@@ -152,11 +119,8 @@
                         <label for="personal-history" class="form-label">Personal History</label>
                         <select id="personal-history" name="personal-history" required>
                             <option value="">Select personal history</option>
-                            <option value="first-episode">First Episode</option>
-                            <option value="recurring">Recurring Episodes</option>
-                            <option value="chronic">Chronic Condition</option>
-                            <option value="previous-treatment">Previous Treatment</option>
-                            <option value="untreated">Previously Untreated</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                         </select>
                     </div>
                 </div>
