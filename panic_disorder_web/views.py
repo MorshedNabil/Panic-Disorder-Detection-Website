@@ -5,3 +5,4 @@ def home(request):
     return render(request, 'index.html')
 
 def predict(request):
+    pass
