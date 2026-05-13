@@ -130,6 +130,30 @@
                     <button type="reset" class="btn btn-secondary">Clear Form</button>
                 </div>
             </form>
+
+            <!-- Result Card -->
+            <div id="resultCard" class="result-card hidden">
+                <div class="result-header">
+                    <h2>Assessment Result</h2>
+                    <button type="button" class="close-btn" onclick="closeResultCard()">X</button>
+                </div>
+                <div class="result-content">
+                    <div class="result-prediction">
+                        <p class="result-label">Prediction:</p>
+                        <p id="predictionResult" class="result-value">-</p>
+                    </div>
+                    <div class="result-confidence">
+                        <p class="result-label">Confidence:</p>
+                        <div class="confidence-bar">
+                            <div id="confidenceBar" class="confidence-fill"></div>
+                        </div>
+                        <p id="confidenceText" class="confidence-text">0%</p>
+                    </div>
+                    <div class="result-message">
+                        <p id="resultMessage" class="message-text"></p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

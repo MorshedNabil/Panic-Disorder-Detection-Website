@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from .ml_model.prediction import predict
+from .ml_model.prediction import predict as predict_disorder
 
 # Create your views here.
 def home(request):
     return render(request, 'index.html')
 
 @require_http_methods(["POST"])
-def assess(request):
+def predict(request):
     try:
         # Create a dictionary from form data
         form_data = {
@@ -25,14 +25,16 @@ def assess(request):
         }
         
         # Pass dictionary to predict function
-        result = predict(form_data)
+        result = predict_disorder(form_data)
         
-        # Return JSON response
+        # Return JSON response with prediction results
         return JsonResponse({
             'success': True,
-            'prediction': result,
-            'message': 'Assessment completed successfully'
+            'prediction': result.get('prediction'),
+            'confidence': result.get('confidence'),
+            'message': result.get('message')
         }, status=200)
+    
     except Exception as e:
         return JsonResponse({
             'success': False,
