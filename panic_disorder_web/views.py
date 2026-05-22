@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from .llm_advice import generate_panic_advice
 from .ml_model.prediction import predict as predict_disorder
 
 # Create your views here.
@@ -26,13 +27,15 @@ def predict(request):
         
         # Pass dictionary to predict function
         result = predict_disorder(form_data)
+        advice = generate_panic_advice(form_data, result)
         
         # Return JSON response with prediction results
         return JsonResponse({
             'success': True,
             'prediction': result.get('prediction'),
             'confidence': result.get('confidence'),
-            'message': result.get('message')
+            'message': result.get('message'),
+            'advice': advice,
         }, status=200)
     
     except Exception as e:
