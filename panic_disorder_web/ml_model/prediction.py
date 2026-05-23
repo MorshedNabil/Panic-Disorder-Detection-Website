@@ -31,6 +31,34 @@ except Exception as e:
     print(f"Error loading model: {e}")
     model = None
 
+
+CATEGORY_NORMALIZATIONS = {
+    'lifestyle': {
+        'sleep quality': 'Sleep quality',
+        'exercise': 'Exercise',
+        'diet': 'Diet',
+    },
+    'symptoms': {
+        'chest pain': 'Chest pain',
+        'shortness of breath': 'Shortness of breath',
+        'panic attacks': 'Panic attacks',
+        'dizziness': 'Dizziness',
+        'fear of losing control': 'Fear of losing control',
+    },
+    'coping_mechanisms': {
+        'exercise': 'Exercise',
+        'meditation': 'Meditation',
+        'socializing': 'Socializing',
+        'seeking therapy': 'Seeking therapy',
+    },
+}
+
+
+def normalize_category(field_name, value):
+    value = value or ''
+    normalized_values = CATEGORY_NORMALIZATIONS.get(field_name, {})
+    return normalized_values.get(value.strip().lower(), value)
+
 def predict(form_data):
     """
     Args:
@@ -49,13 +77,13 @@ def predict(form_data):
     try:
         
         df = pd.DataFrame([{
-            'Lifestyle Factors': form_data.get('lifestyle', ''), # in get() the second argument is the default value if the key is not found
+            'Lifestyle Factors': normalize_category('lifestyle', form_data.get('lifestyle', '')), # in get() the second argument is the default value if the key is not found
             'Current Stressors': form_data.get('stressors', ''),
-            'Symptoms': form_data.get('symptoms', ''),
+            'Symptoms': normalize_category('symptoms', form_data.get('symptoms', '')),
             'Severity': form_data.get('severity', ''),
             'Impact on Life': form_data.get('impact', ''),
             'Age': float(form_data.get('age', 0)),
-            'Coping Mechanisms': form_data.get('coping_mechanisms', ''),
+            'Coping Mechanisms': normalize_category('coping_mechanisms', form_data.get('coping_mechanisms', '')),
             'Family History': form_data.get('family_history', ''),
             'Social Support': form_data.get('social_support', ''),
             'Personal History': form_data.get('personal_history', ''),
