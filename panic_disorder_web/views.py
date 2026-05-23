@@ -35,7 +35,9 @@ def predict(request):
             'prediction': result.get('prediction'),
             'confidence': result.get('confidence'),
             'message': result.get('message'),
-            'advice': advice,
+            'advice': advice.get('text'),
+            'advice_source': advice.get('source'),
+            'advice_error': advice.get('error'),
         }, status=200)
     
     except Exception as e:

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 EMERGENCY_WARNING = (
@@ -39,22 +40,28 @@ def generate_panic_advice(form_data, prediction_result):
     Generate safe panic-control guidance with LangChain.
 
     The app still returns a static, safe response if the LLM is unavailable or
-    the OPENAI_API_KEY environment variable is not configured.
+    the Gemini API key environment variable is not configured.
     """
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+
     try:
         from dotenv import load_dotenv
 
-        load_dotenv()
+        load_dotenv(dotenv_path=env_path, override=True)
     except ImportError:
         pass
 
-    if not os.getenv("OPENAI_API_KEY"):
-        return get_fallback_advice(form_data)
+    if not (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")):
+        return {
+            "text": get_fallback_advice(form_data),
+            "source": "fallback_missing_key",
+            "error": "",
+        }
 
     try:
         from langchain_core.output_parsers import StrOutputParser
         from langchain_core.prompts import ChatPromptTemplate
-        from langchain_openai import ChatOpenAI
+        from langchain_google_genai import ChatGoogleGenerativeAI
 
         prompt = ChatPromptTemplate.from_messages(
             [
@@ -93,7 +100,10 @@ def generate_panic_advice(form_data, prediction_result):
             ]
         )
 
-        llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"), temperature=0.2)
+        llm = ChatGoogleGenerativeAI(
+            model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+            temperature=0.2,
+        )
         chain = prompt | llm | StrOutputParser()
 
         advice = chain.invoke(
@@ -115,7 +125,15 @@ def generate_panic_advice(form_data, prediction_result):
         )
 
         if has_high_risk_symptoms(form_data) and EMERGENCY_WARNING not in advice:
-            return f"{EMERGENCY_WARNING}\n\n{advice}"
-        return advice
-    except Exception:
-        return get_fallback_advice(form_data)
+            advice = f"{EMERGENCY_WARNING}\n\n{advice}"
+        return {
+            "text": advice,
+            "source": "gemini",
+            "error": "",
+        }
+    except Exception as exc:
+        return {
+            "text": get_fallback_advice(form_data),
+            "source": "fallback_api_error",
+            "error": f"{type(exc).__name__}: {exc}",
+        }

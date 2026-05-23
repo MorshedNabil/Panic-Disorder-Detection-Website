@@ -75,6 +75,13 @@ function displayResult(data) {
     } else {
         adviceMessage.textContent = 'No AI guidance is available right now. If symptoms feel severe or unsafe, seek urgent medical help.';
     }
+
+    if (data.advice_source) {
+        console.log('AI advice source:', data.advice_source);
+    }
+    if (data.advice_error) {
+        console.warn('AI advice fallback reason:', data.advice_error);
+    }
     
     // Show the result card
     resultCard.classList.remove('hidden');
