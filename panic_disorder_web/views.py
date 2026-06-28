@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from .llm_advice import generate_panic_advice
 from .ml_model.prediction import predict as predict_disorder
@@ -7,6 +7,11 @@ from .ml_model.prediction import predict as predict_disorder
 # Create your views here.
 def home(request):
     return render(request, 'index.html')
+
+def trigger_sentry_error(request):
+    division_by_zero = 1 / 0
+    return HttpResponse("This will never be reached due to the error above.")
+
 
 @require_http_methods(["POST"])
 def predict(request):

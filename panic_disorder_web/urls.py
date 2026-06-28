@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('home/', views.home, name='home'),
     path('predict/', views.predict, name='predict'),
+    path('test-sentry/', views.trigger_sentry_error, name='test_sentry'),
 ]
