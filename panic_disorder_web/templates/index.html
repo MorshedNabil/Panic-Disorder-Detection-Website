@@ -6,6 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panic Disorder Assessment</title>
     <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+
+    <!-- Sentry Session Replay — paste your loader script from:
+         Sentry Dashboard → Project Settings → Client Keys (DSN) → Loader Script -->
+    <script src="{% static 'js/sentry.bundle.min.js' %}"></script>
+    <script>
+        Sentry.init({
+            dsn: "{{ SENTRY_DSN }}",
+            environment: "{{ SENTRY_ENV }}",
+            tunnel: '/sentry-tunnel/',
+            replaysSessionSampleRate: 1.0, // make it to 0.1 when in production
+            replaysOnErrorSampleRate: 1.0,
+            integrations: [
+                Sentry.replayIntegration({
+                    maskAllText: false,
+                    blockAllMedia: false,
+                }),
+            ],
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -128,6 +147,7 @@
                 <div class="button-group">
                     <button type="submit" class="btn btn-primary">Submit Assessment</button>
                     <button type="reset" class="btn btn-secondary">Clear Form</button>
+                    <button type="button" id="test-error" class="btn btn-secondary">Trigger Test Error</button>
                 </div>
             </form>
 
@@ -164,5 +184,13 @@
     </div>
 
     <script src="{% static 'js/main.js' %}"></script>
+    
+    <!-- This is a sentry test purpose button to trigger error delete it when in production -->
+    <script>
+        document.getElementById('test-error').addEventListener('click', () => {
+            throw new Error('This is a test error');
+        });
+    </script>
+
 </body>
 </html>

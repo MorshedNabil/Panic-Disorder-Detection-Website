@@ -46,6 +46,7 @@ if SENTRY_DSN:
         traces_sample_rate=1.0,   # 1.0 = 100% of transactions; lower in production if needed
         send_default_pii=True,    # captures user info (email etc.) — remove if unwanted
         environment="production" if not DEBUG else "development",
+        enable_logs=True,
     )
 
 
@@ -127,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
